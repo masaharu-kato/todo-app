@@ -2,67 +2,62 @@
 export default {
   data() {
     return {
-      title: 'My New Vue Title',
-      message: 'Welcome to Vue',
-      isRed: true,
       input: {
-        firstName: '',
-        lastName: '',
-        isMember: true,
+        text: '',
+        done: false,
       },
-      users: [
-        {
-          firstName: 'John',
-          lastName: 'Smith',
-          isMember: true,
-        },
-        {
-          firstName: 'Taro',
-          lastName: 'Shinjuku',
-          isMember: false,
-        },
-        {
-          firstName: 'Hanako',
-          lastName: 'Shibuya',
-          isMember: true,
-        },
-      ],
+      tasks: [
+        // {
+        //   text: "Vueをマスターする",
+        //   done: true,
+        // }, {
+        //   text: "牛乳を買う",
+        //   done: false,
+        // }, {
+        //   text: "家賃を払う",
+        //   done: false,
+        // },
+      ] as { text: string, done: boolean }[]
     }
   },
-  // computed: {
-  //   fullName() {
-  //     return this.user.firstName + ' ' + this.user.lastName
-  //   }
-  // }
   methods: {
-    addUser() {
-      this.users.push(this.input)
-      this.input = {
-        firstName: '',
-        lastName: '',
-        isMember: true,
+    addTask() {
+      if (!this.input.text) {
+        window.alert('内容が入力されていません！')
+        return
       }
-    }
-  }
+      this.tasks.push(this.input)
+      this.input = {
+        text: '',
+        done: false,
+      }
+    },
+    removeDoneTasks() {
+      // console.log(this.tasks.map(task => task.done))
+      this.tasks = this.tasks.filter(task => !task.done)
+    },
+
+  },
 }
 </script>
 
 <template>
-  <h1 :title="message" :class="{ red: isRed }">{{ title }}</h1>
-  <input type="text" v-model="input.firstName" />
-  <input type="text" v-model="input.lastName" />
-  <input type="checkbox" v-model="input.isMember" />
-  <button @click="addUser">ユーザー追加</button>
-  <h2>ユーザーのデータ一覧</h2>
-  <div v-for="user in users">
-    <h2>{{ user.firstName + ' ' + user.lastName }}さんのデータ</h2>
-    <p v-if="user.isMember">メンバーです</p>
-    <p v-else>メンバーではありません</p>
+  <h1>My ToDo App</h1>
+  <input type="text" v-model="input.text" />
+  <button @click="addTask">追加</button>
+  <button @click="removeDoneTasks">完了済みを削除する</button>
+  <div v-if="!tasks.length">
+    タスクがまだありません！
   </div>
+  <ul v-else>
+    <li v-for="task in tasks">
+      <input type="checkbox" v-model="task.done" /><span :class="{ 'todo-done': task.done }">{{ task.text }}</span>
+    </li>
+  </ul>
 </template>
 
-<style scoped>
-.red {
-  color: red;
+<style>
+.todo-done {
+  text-decoration: line-through;
 }
 </style>
