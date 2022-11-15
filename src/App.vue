@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import TodoAdd from './components/TodoAdd.vue'
-import TodoList from './components/TodoList.vue'
+import TodoAdd from '@/components/components/TodoAdd.vue'
+import TodoList from '@/components/components/TodoList.vue'
 
 export default defineComponent({
   components: {
