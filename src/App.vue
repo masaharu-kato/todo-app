@@ -1,33 +1,68 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
+<script lang="ts">
+export default {
+  data() {
+    return {
+      title: 'My New Vue Title',
+      message: 'Welcome to Vue',
+      isRed: true,
+      input: {
+        firstName: '',
+        lastName: '',
+        isMember: true,
+      },
+      users: [
+        {
+          firstName: 'John',
+          lastName: 'Smith',
+          isMember: true,
+        },
+        {
+          firstName: 'Taro',
+          lastName: 'Shinjuku',
+          isMember: false,
+        },
+        {
+          firstName: 'Hanako',
+          lastName: 'Shibuya',
+          isMember: true,
+        },
+      ],
+    }
+  },
+  // computed: {
+  //   fullName() {
+  //     return this.user.firstName + ' ' + this.user.lastName
+  //   }
+  // }
+  methods: {
+    addUser() {
+      this.users.push(this.input)
+      this.input = {
+        firstName: '',
+        lastName: '',
+        isMember: true,
+      }
+    }
+  }
+}
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <h1 :title="message" :class="{ red: isRed }">{{ title }}</h1>
+  <input type="text" v-model="input.firstName" />
+  <input type="text" v-model="input.lastName" />
+  <input type="checkbox" v-model="input.isMember" />
+  <button @click="addUser">ユーザー追加</button>
+  <h2>ユーザーのデータ一覧</h2>
+  <div v-for="user in users">
+    <h2>{{ user.firstName + ' ' + user.lastName }}さんのデータ</h2>
+    <p v-if="user.isMember">メンバーです</p>
+    <p v-else>メンバーではありません</p>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.red {
+  color: red;
 }
 </style>
