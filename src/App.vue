@@ -1,56 +1,18 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import TodoAdd from '@/components/components/TodoAdd.vue'
-import TodoList from '@/components/components/TodoList.vue'
-
+import Home from '@/components/pages/Home.vue'
 export default defineComponent({
-  components: {
-    TodoAdd,
-    TodoList,
-  },
-  data() {
-    return {
-      tasks: [
-        // {
-        //   text: "Vueをマスターする",
-        //   done: true,
-        // }, {
-        //   text: "牛乳を買う",
-        //   done: false,
-        // }, {
-        //   text: "家賃を払う",
-        //   done: false,
-        // },
-      ] as { text: string, done: boolean }[]
-    }
-  },
-  methods: {
-    addTask(text: string) {
-      if (!text) {
-        window.alert('内容が入力されていません！')
-        return
-      }
-      this.tasks.push({ text: text, done: false })
-    },
-    removeDoneTasks() {
-      // console.log(this.tasks.map(task => task.done))
-      this.tasks = this.tasks.filter(task => !task.done)
-    },
-  },
+  components: { Home },
 })
 </script>
 
 <template>
+  <router-link to="/">Home</router-link> ・
+  <router-link to="/edit">Edit</router-link>
   <h1>My ToDo App</h1>
-  <TodoAdd @delete-done="removeDoneTasks" @add-todo="addTask" />
-  <div v-if="!tasks.length">
-    タスクがまだありません！
-  </div>
-  <TodoList v-else :tasks="tasks" />
+  <router-view />
 </template>
 
 <style>
-.todo-done {
-  text-decoration: line-through;
-}
+
 </style>

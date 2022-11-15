@@ -5,10 +5,10 @@ export default defineComponent({
   components: {
     MyButton,
   },
-  emits: ['delete-done', 'add-todo'],
+  emits: ['edit-task'],
   methods: {
-    addTodo() {
-      this.$emit('add-todo', this.input.text)
+    editTask() {
+      this.$emit('edit-task', this.input.text)
       this.input.text = ""
     },
   },
@@ -24,6 +24,5 @@ export default defineComponent({
 
 <template>
   <input type="text" v-model="input.text" />
-  <MyButton @click="addTodo"><img src="@/assets/icon-plus.svg" height="10" />追加</MyButton>
-  <MyButton @click="$emit('delete-done')">完了済みを削除する</MyButton>
+  <MyButton @click="editTask">編集</MyButton>
 </template>
