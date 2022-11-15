@@ -1,11 +1,15 @@
 <script lang="ts">
-export default {
+import { defineComponent } from 'vue'
+import TodoAdd from './components/TodoAdd.vue'
+import TodoList from './components/TodoList.vue'
+
+export default defineComponent({
+  components: {
+    TodoAdd,
+    TodoList,
+  },
   data() {
     return {
-      input: {
-        text: '',
-        done: false,
-      },
       tasks: [
         // {
         //   text: "Vueをマスターする",
@@ -21,39 +25,28 @@ export default {
     }
   },
   methods: {
-    addTask() {
-      if (!this.input.text) {
+    addTask(text: string) {
+      if (!text) {
         window.alert('内容が入力されていません！')
         return
       }
-      this.tasks.push(this.input)
-      this.input = {
-        text: '',
-        done: false,
-      }
+      this.tasks.push({ text: text, done: false })
     },
     removeDoneTasks() {
       // console.log(this.tasks.map(task => task.done))
       this.tasks = this.tasks.filter(task => !task.done)
     },
-
   },
-}
+})
 </script>
 
 <template>
   <h1>My ToDo App</h1>
-  <input type="text" v-model="input.text" />
-  <button @click="addTask">追加</button>
-  <button @click="removeDoneTasks">完了済みを削除する</button>
+  <TodoAdd @delete-done="removeDoneTasks" @add-todo="addTask" />
   <div v-if="!tasks.length">
     タスクがまだありません！
   </div>
-  <ul v-else>
-    <li v-for="task in tasks">
-      <input type="checkbox" v-model="task.done" /><span :class="{ 'todo-done': task.done }">{{ task.text }}</span>
-    </li>
-  </ul>
+  <TodoList v-else :tasks="tasks" />
 </template>
 
 <style>
