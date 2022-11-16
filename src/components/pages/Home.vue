@@ -30,14 +30,17 @@ export default defineComponent({
     ...mapStores(useTasksStore),
   },
   methods: {
-    ...mapActions(useTasksStore, ['addTask', 'clearDoneTasks']),
+    // ...mapActions(useTasksStore, ['addTask', 'clearDoneTasks']),
     addNewTask(text: string) {
       if (!text) {
         window.alert('内容が入力されていません！')
         return
       }
-      this.tasksStore.addTask({ text: text, done: false })
+      this.tasksStore.addNewTask(text)
     },
+    clearDoneTasks() {
+      this.tasksStore.clearDoneTasks()
+    }
     // removeDoneTasks() {
     //   // console.log(this.tasks.map(task => task.done))
     //   this.tasks = this.tasks.filter(task => !task.done)

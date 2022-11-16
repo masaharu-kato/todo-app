@@ -1,9 +1,20 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import MyButton from '@/components/basics/MyButton.vue'
+import { Task } from '@/stores/task'
 export default defineComponent({
   components: {
     MyButton,
+  },
+  props: {
+    task: { type: Object as PropType<Task>, required: true }
+  },
+  data() {
+    return {
+      input: {
+        text: this.task.text,
+      },
+    }
   },
   emits: ['edit-task'],
   methods: {
@@ -12,13 +23,6 @@ export default defineComponent({
       this.input.text = ""
     },
   },
-  data() {
-    return {
-      input: {
-        text: '',
-      },
-    }
-  }
 })
 </script>
 

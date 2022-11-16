@@ -13,7 +13,7 @@ export default defineComponent({
   methods: {
     openEditMode(task: Task) {
       console.log('target task:', task)
-      this.$router.push('/edit')
+      this.$router.push('/edit/' + task.id)
     }
   }
 })
@@ -23,8 +23,9 @@ export default defineComponent({
   <ul>
     <li v-for="task in tasks">
       <input type="checkbox" v-model="task.done" />
-      <!--
-      --><span :class="{ 'task-done': task.done }">{{ task.text }}</span>
+      <span :class="{ 'task-done': task.done }">
+        # {{ task.id }}: {{ task.text }}
+      </span>
       <MyButton @click="openEditMode(task)">編集</MyButton>
     </li>
   </ul>
