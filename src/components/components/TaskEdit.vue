@@ -1,29 +1,24 @@
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
+<script setup lang="ts">
 import MyButton from '@/components/basics/MyButton.vue'
 import { Task } from '@/stores/task'
-export default defineComponent({
-  components: {
-    MyButton,
-  },
-  props: {
-    task: { type: Object as PropType<Task>, required: true }
-  },
-  data() {
-    return {
-      input: {
-        text: this.task.text,
-      },
-    }
-  },
-  emits: ['edit-task'],
-  methods: {
-    editTask() {
-      this.$emit('edit-task', this.input.text)
-      this.input.text = ""
-    },
-  },
-})
+
+const props = defineProps<{
+  task: Task
+}>()
+
+const emit = defineEmits<{
+  (e: 'edit-task', text: string): void
+}>()
+
+const input = {
+  text: props.task.text
+}
+
+const editTask = () => {
+  emit('edit-task', input.text)
+  input.text = ""
+}
+
 </script>
 
 <template>

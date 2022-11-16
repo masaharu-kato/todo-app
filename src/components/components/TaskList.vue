@@ -1,22 +1,18 @@
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
+<script setup lang="ts">
 import MyButton from '@/components/basics/MyButton.vue'
 import { Task } from '@/stores/task';
+import { useRouter } from 'vue-router';
 
-export default defineComponent({
-  components: {
-    MyButton,
-  },
-  props: {
-    tasks: Array as PropType<Task[]>
-  },
-  methods: {
-    openEditMode(task: Task) {
-      console.log('target task:', task)
-      this.$router.push('/edit/' + task.id)
-    }
-  }
-})
+const router = useRouter()
+
+const props = defineProps<{
+  tasks: Task[]
+}>()
+
+const openEditMode = (task: Task) => {
+  console.log('target task:', task)
+  router.push('/edit/' + task.id)
+}
 </script>
 
 <template>
