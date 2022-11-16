@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import MyButton from '@/components/basics/MyButton.vue'
-import { Task } from '@/stores/task'
+import { Task } from '@/models/task'
+import { onMounted, Ref, toRef } from 'vue';
 
 const props = defineProps<{
-  task: Task
+  task: Ref<Task>
 }>()
 
 const emit = defineEmits<{
@@ -11,8 +12,13 @@ const emit = defineEmits<{
 }>()
 
 const input = {
-  text: props.task.text
+  text: ''
 }
+
+onMounted(async () => {
+  const task = props.task.value
+  input.text = task.text
+})
 
 const editTask = () => {
   emit('edit-task', input.text)

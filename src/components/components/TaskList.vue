@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import MyButton from '@/components/basics/MyButton.vue'
-import { Task } from '@/stores/task';
 import { useRouter } from 'vue-router';
+import MyButton from '@/components/basics/MyButton.vue'
+import { Task } from '@/models/task';
 
 const router = useRouter()
 
@@ -11,7 +11,7 @@ const props = defineProps<{
 
 const openEditMode = (task: Task) => {
   console.log('target task:', task)
-  router.push('/edit/' + task.id)
+  router.push('/edit/' + task._id)
 }
 </script>
 
@@ -20,7 +20,7 @@ const openEditMode = (task: Task) => {
     <li v-for="task in tasks">
       <input type="checkbox" v-model="task.done" />
       <span :class="{ 'task-done': task.done }">
-        # {{ task.id }}: {{ task.text }}
+        {{ task.text }}
       </span>
       <MyButton @click="openEditMode(task)">編集</MyButton>
     </li>
