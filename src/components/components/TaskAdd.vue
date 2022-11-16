@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import MyButton from '@/components/basics/MyButton.vue'
 import { reactive } from 'vue';
+import MyButton from '@/components/basics/MyButton.vue'
 
 const emit = defineEmits<{
   (e: 'add-new-task', text: string): void,

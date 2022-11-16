@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import MyButton from '@/components/basics/MyButton.vue'
-import { Task } from '@/stores/task'
 
 const props = defineProps<{
-  task: Task
+  task_text: string
 }>()
 
 const emit = defineEmits<{
@@ -11,12 +10,13 @@ const emit = defineEmits<{
 }>()
 
 const input = {
-  text: props.task.text
+  text: props.task_text
 }
 
 const editTask = () => {
+  console.log('emit edit-task:', input.text)
   emit('edit-task', input.text)
-  input.text = ""
+  input.text = ''
 }
 
 </script>

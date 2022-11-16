@@ -1,24 +1,32 @@
 <script setup lang="ts">
+import { apiClient } from '@/plugins/apiClient';
 import TaskEdit from '@/components/components/TaskEdit.vue'
-import { useTasksStore } from '@/stores/task'
+import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute()
 const router = useRouter()
-const tasksStore = useTasksStore()
 
-const task_id = Number(route.params.id)
-const task = tasksStore.getTask(task_id)
-const editTask = (text: string) => {
-  const new_task = { ...task }
-  new_task.text = text
-  tasksStore.editTask(new_task)
+const task_id = String(route.params.id)
+const task_text = ref<string>()
+const editTask = async (text: string) => {
+  console.log('pages.editTask', text)
+  const response = await apiClient.post('/api/edit-task', {
+    id: task_id,
+    text: text
+  })
+  console.log('edit response:', response)
   router.push('/')
 }
+
+onMounted(async () => {
+  task_text.value = (await apiClient.get('/api/task/' + task_id)).data.text
+})
 
 </script>
 
 <template>
   <p>編集モード</p>
-  <TaskEdit :task="task" @edit-task="editTask" />
+  <div v-if="task_text == undefined">Loading...</div>
+  <TaskEdit v-else :task_text="task_text" @edit-task="editTask" />
 </template>
