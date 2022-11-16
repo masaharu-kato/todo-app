@@ -4,6 +4,7 @@ import { apiClient } from '@/plugins/apiClient';
 import TaskAdd from '@/components/components/TaskAdd.vue'
 import TaskList from '@/components/components/TaskList.vue'
 import { Task } from '@/models/task';
+import { computed } from '@vue/reactivity';
 
 const addNewTask = async (text: string) => {
   if (!text) {
@@ -17,8 +18,9 @@ const addNewTask = async (text: string) => {
   // tasksStore.addNewTask(text)
 }
 
-const clearDoneTasks = () => {
-  // tasksStore.clearDoneTasks()
+const deleteDoneTasks = async () => {
+  await apiClient.post('/api/delete-done-tasks')
+  tasks.value = (await apiClient.get('/api/tasks')).data
 }
 
 const tasks = ref<Task[]>([])
@@ -32,7 +34,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <TaskAdd @clear-done-tasks="clearDoneTasks" @add-new-task="addNewTask" />
+  <TaskAdd @clear-done-tasks="deleteDoneTasks" @add-new-task="addNewTask" />
   <div v-if="!tasks.length">
     タスクがまだありません！
   </div>
